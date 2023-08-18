@@ -6,6 +6,7 @@ import Billboard from "@/components/billboard"
 import Filter from "./components/filter"
 import NoResults from "@/components/ui/no-results"
 import ProductCard from "@/components/ui/product-card"
+import MobileFilters from "./components/mobile-filters"
 
 export const revalidate = 0
 
@@ -35,7 +36,10 @@ const CategoryPage = async ({params, searchParams}: CategoryPageProps) => {
   return (
     <div className="container mx-auto space-y-10">
         <Billboard data={category.billboard} />
-        <div className="p-4 lg:grid lg:grid-cols-5 lg:gap-x-8">
+        <div className="p-4 space-y-4 lg:grid lg:grid-cols-5 lg:gap-x-8">
+            <div className="lg:hidden">
+                <MobileFilters sizes={sizes} colors={colors} />
+            </div>
             <div className="hidden lg:block">
                 <Filter name="Tallas" valueKey="sizeId" data={sizes}/>
                 <Filter name="Colores" valueKey="colorId" data={colors}/>
@@ -46,7 +50,6 @@ const CategoryPage = async ({params, searchParams}: CategoryPageProps) => {
                     {products.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
-
                 </div>
             </div>
         </div>
