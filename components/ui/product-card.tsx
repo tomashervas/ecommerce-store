@@ -8,6 +8,7 @@ import Currency from "./currency"
 import { useRouter } from "next/navigation"
 import UsePreviewModal from "@/hooks/use-preview-modal"
 import { MouseEventHandler } from "react"
+import useCart from "@/hooks/use-cart"
 
 interface ProductCardProps {
     product: Product
@@ -16,6 +17,8 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({product}) => {
 
   const previewModal = UsePreviewModal()
+
+  const cart = useCart()
 
   const router = useRouter()
   const handleClick = () => {
@@ -26,6 +29,13 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
     event.stopPropagation()
     previewModal.onOpen(product)
   }
+
+  const onAddToCart:MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation()
+    cart.addItem(product)
+  }
+
+
   return (
     <div className="bg-white group cursor-pointer rounded-lg border" onClick={handleClick}>
         <div className="aspect-square rounded-tl-lg rounded-tr-lg overflow-hidden bg-gray-100 relative">
@@ -36,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({product}) => {
                 <IconButton icon={<ExpandIcon size={20} className="text-gray-600"/>} onClick={onPreview} />
               </div>
               <div className="flex gap-x-6 justify-center">
-                <IconButton icon={<ShoppingCartIcon size={20} className="text-gray-600"/>} onClick={()=>{}} />
+                <IconButton icon={<ShoppingCartIcon size={20} className="text-gray-600"/>} onClick={onAddToCart} />
               </div>
             </div>
         </div>
